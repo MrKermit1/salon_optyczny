@@ -11,13 +11,14 @@ function Account () {
     const [email, setEmail] = useState('');
     const [id, setId] = useState();
     const [portfel, setPortfel] = useState();
+    const [status, setStatus] = useState();
 
     const navigate = useNavigate();
     useEffect(() => {
         const storedEmail = localStorage.getItem('userEmail');
         const storedId = localStorage.getItem('userId')
         const storedPortfel = localStorage.getItem('userPortfel')
-        const storedLogStatus = localStorage.getItem('userLog');
+        const storedStatus = localStorage.getItem('userLog');
 
         if (storedEmail && storedId && storedPortfel) {
             setEmail(storedEmail);
@@ -28,10 +29,15 @@ function Account () {
             const userEmail = UserInfo.getEmail();
             const userId = UserInfo.getId();
             const userPortfel = UserInfo.getPortfel();
+            const userStatus = UserInfo.getIsLog();
 
             setId(userId);
             setEmail(userEmail);
             setPortfel(userPortfel);
+            setStatus(userStatus);
+            if (userStatus == false) {
+                navigate('/login');
+            }
 
             localStorage.setItem('userEmail', userEmail);
             localStorage.setItem('userId', userId);
@@ -76,6 +82,15 @@ function Account () {
                             </dd>
                         </div>
 
+                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+                                Status logowania
+                            </dt>
+                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {status == true ? "true" : "false"}
+                            </dd>
+                        </div>
+
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">
                                 Id
@@ -83,10 +98,10 @@ function Account () {
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                 {id}
                             </dd>
-
                             <button
                                     onClick={logout}
                                 >Wyloguj</button>
+                            
                         </div>
                     </dl>
                 </div>
