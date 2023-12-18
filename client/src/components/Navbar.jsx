@@ -31,7 +31,7 @@ function Nav(props) {
       <Link
         to={{ pathname: '/acc', state: dataToPass }}
       >
-        <NavbarContent className={props.email !=null ? props.email : " hidden"}>
+        <NavbarContent className={props.email !=null && props.status ? props.email : " hidden"}>
           <NavbarItem className="hidden lg:flex">
             <UserNav className={props.email !="" ? props.email : " hidden"} name = {props.email !=null ? props.email : ""} desc="User"/>
           </NavbarItem>
