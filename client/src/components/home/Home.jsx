@@ -36,7 +36,6 @@ function Home () {
       }, [email]);
 
     const getUserData = () => {
-        console.log('dupa')
         Axios.post('http://localhost:3001/getUser',
             {email: email}
         ).then((response) => {
@@ -55,7 +54,7 @@ function Home () {
 
     return(
         <>
-            <Nav email={userData}/>
+            <Nav email={userData} status={userLog}/>
             <Panel></Panel>
         </>
     )
