@@ -42,7 +42,9 @@ var UserInfo = (function () {
         getPortfel: getPortfel,
         setEmail: setEmail,
         setId: setId,
-        setPortfel: setPortfel
+        setPortfel: setPortfel,
+        setIsLog: setIsLog,
+        getIsLog: getIsLog
     }
 })();
 export default UserInfo;
