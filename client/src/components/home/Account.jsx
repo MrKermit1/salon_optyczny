@@ -51,20 +51,20 @@ function Account () {
         localStorage.removeItem('userId');
         localStorage.removeItem('userPortfel');
         localStorage.removeItem('userLog');
-        navigate('/login');
+        navigate('/');
     };
 
 
     return  (
         <>
-            <div class="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg flex flex-col justify-center">
+            <div class="bg-white max-w-2xl shadow overflow-hidden sm:rounded-lg flex flex-col justify-center align-middle">
                 <div class="px-4 py-5 sm:px-6">
                     <p class="mt-1 max-w-2xl text-sm text-gray-500">
                         Informacje Użytkownika
                     </p>
                 </div>
                 
-                <div class="border-t border-gray-200">
+                <div class="border-t border-gray-200 ">
                     <dl>
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">

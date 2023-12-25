@@ -4,7 +4,7 @@ import Text from './Text.jsx';
 function Content (){
     return(
         <>
-            <div className='bg-gradient-to-r from-green-300 to-green-200' id='content' >
+            <div className='bg-[url(src/assets/background.jpeg)]' id='content' >
                 <p className="text-5xl text-center drop-shadow-xl py-10">Salon Optyczny</p>
                 <div id="cards" className='lg:flex lg: justify-evenly lg:flex-row lg:min-h-full top-96 sm:flex-col text-center'>
                     

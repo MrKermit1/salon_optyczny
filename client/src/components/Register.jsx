@@ -82,8 +82,8 @@ function Register() {
     return (
        <>
         <Navbar />
-            <div className='bg-gradient-to-r from-green-300 to-green-200 ' id='content' >
-                <section class="bg-gradient-to-r from-green-300 to-green-200' id='content">
+            <div className='bg-[url(src/assets/background.jpeg)]' id='content' >
+                <section class="' id='content">
                     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
 
                         <a href="/" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
