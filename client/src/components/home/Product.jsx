@@ -5,11 +5,15 @@ function Product (props) {
     const navigate = useNavigate();
 
     const goToProduct = () => {
-        navigate('/product')
+        navigate('/product' ,{replace:true,  state: {
+            img: props.image !=null ? props.image:obrazek,
+            nazwa: props.nazwa != null ? props.nazwa : "brak nazwy",
+            cena: props.cena !=null ? props.cena : "0$"
+        }})
     }
     return (
         <>
-            <a href="#" class="group transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300"
+            <a class="group transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300"
                 onClick={goToProduct}
             >
                 <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
