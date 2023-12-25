@@ -16,6 +16,8 @@ function Login () {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userId');
         localStorage.removeItem('userPortfel');
+        localStorage.removeItem('userLog');
+
         Axios.post('http://localhost:3001/log', {
             email: email,
             password: password
@@ -25,8 +27,11 @@ function Login () {
             Axios.post('http://localhost:3001/getUser',
                 {email: email}
             ).then((response) => {
-                console.log("wysłano dane w logowaniu");
-                console.log(response.data)
+
+                localStorage.setItem('userEmail' ,response.data.email)
+                localStorage.setItem('userId' ,response.data.id)
+                localStorage.setItem('userPortfel' ,response.data.portfel)
+
                 UserInfo.setEmail(response.data.email);
                 UserInfo.setId(response.data.id);
             }).catch((error) => { 
@@ -76,9 +81,14 @@ function Login () {
                                     <button 
                                     type="button" 
                                     onClick={login}
-                                    class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Zaloguj</button>
+                                    class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                                    Zaloguj</button>
                                     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                                         Nie założyłeś jeszcze konta? <a href="/register" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Zarejestruj</a>
+                                    </p>
+                                    
+                                    <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                                        Jesteś pracownikiem lub właścicielem? <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Zkorzystaj z panelu pracowniczego</a>
                                     </p>
                                 </form>
                             </div>

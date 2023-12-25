@@ -4,6 +4,7 @@ import Login from './Log.jsx';
 import Register from './Register.jsx';
 import Home from './home/Home.jsx'
 import Account from './home/Account.jsx';
+import ProductInfo from './home/ProductInfo.jsx';
 export default function App() {
   
   return (
@@ -14,6 +15,7 @@ export default function App() {
           <Route path='/register' element={<Register/>}/>
           <Route path='/home' element={<Home />} />
           <Route path='/acc' element={<Account />}/>
+          <Route path='/product' element={<ProductInfo />}/>
       </Routes>
     </>
   );

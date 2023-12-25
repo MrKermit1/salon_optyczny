@@ -6,42 +6,45 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import UserInfo from './UserInfo';
 import Axios from 'axios';
-import { User } from '@nextui-org/react';
 
 function Home () {
     const location = useLocation();
-    const email = location.state;
+    const data = location.state;
     //const email = location.state?.user?.email || '';
-    const [userData, setUserData] = useState(null);
+    const [userEmail, setUserEmail] = useState(null);
     const [userId, setUserId] = useState(null);
     const [userPortfel, setUserPortfel] = useState(null)
     const [userLog, setUserLog] = useState('false');
 
     useEffect(() => {
-        const storedUserData = JSON.parse(localStorage.getItem('userData'));
-        const storedUserId = JSON.parse(localStorage.getItem('userId'));
-        const storedUserPortfel = JSON.parse(localStorage.getItem('userPortfel'));
+        //przechowywane dane
+        const storedUserEmail = localStorage.getItem('userEmail');
+        const storedUserId = localStorage.getItem('userId');
+        const storedUserPortfel = localStorage.getItem('userPortfel');
         const storedLogStatus = localStorage.getItem('userLog');
-        console.log(storedLogStatus);
-        if (storedUserData && storedUserId && storedUserPortfel) {
-          setUserData(storedUserData);
+        //jezeli są ustawione dane z sesji to dane są przypisywane lokalnie w komponencie
+        if (storedUserEmail && storedUserId && storedUserPortfel) {
+          setUserEmail(storedUserEmail);
           setUserId(storedUserId);
-          storedUserData(storedUserPortfel);
+          setUserPortfel(storedUserPortfel);
           setUserLog(true);
-        } else {
-          if (email) {
+        } else {//jeżeli nie to dane są przechwytywane z bazy
+          if (data) {
             getUserData();
           }
         }
-      }, [email]);
+      }, [data]);
 
     const getUserData = () => {
         Axios.post('http://localhost:3001/getUser',
-            {email: email}
+            {email: data}
         ).then((response) => {
             console.log("Wczytano");
-            //console.log(response.data)
-            setUserData(response.data.email)
+            //ustawia dane w tym konkretnym komponencie
+            setUserEmail(response.data.email)
+            setUserId(response.data.id)
+            setUserPortfel(response.data.portfel)
+            //ustawia dane w klasie UserInfo
             UserInfo.setEmail(response.data.email);
             UserInfo.setId(response.data.id);
             UserInfo.setPortfel(response.data.portfel)
@@ -52,9 +55,10 @@ function Home () {
         })  
     }
 
+
     return(
         <>
-            <Nav email={userData} status={userLog}/>
+            <Nav email={userEmail} status={userLog}/>
             <Panel></Panel>
         </>
     )
