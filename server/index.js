@@ -91,6 +91,26 @@ app.post('/getUser', (req, res) => {
     )
 })
 
+app.post('/getProduct', (req, res) => {
+
+
+    db.query(
+        "SELECT nazwa, cena FROM produkt",
+        [],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+
+            if (result.length <= 0) {
+                res.status(409).send("Nie wczytano danych");
+            }else{
+                res.status(200).json(result)
+            }
+        }
+    )
+})
+
 app.listen(3001, () => {
     console.log("serwer działa na porcie 3001");
 })
