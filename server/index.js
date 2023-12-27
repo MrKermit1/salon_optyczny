@@ -95,7 +95,7 @@ app.post('/getProduct', (req, res) => {
 
 
     db.query(
-        "SELECT nazwa, cena FROM produkt",
+        "SELECT nazwa, cena, opis FROM produkt",
         [],
         (err, result) => {
             if (err) {

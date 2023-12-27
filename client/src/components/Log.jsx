@@ -38,7 +38,7 @@ function Login () {
                 console.log(error)
                 console.log("ups");
             })  
-            navigate('/home', {state: email});
+            navigate('/shop', {state: email});
         }).catch((error) => { 
             console.log(error)
             console.log("Podany email lub hasło nie są poprawne");

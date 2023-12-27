@@ -20,13 +20,35 @@ function Nav(props) {
   const dataToPass = {data: "email"}
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar onMenuOpenChange={setIsMenuOpen} className="w-full">
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
       </NavbarContent>
+
+      <Link className=""
+        to={{pathname: '/'}}
+      >
+        <NavbarContent>
+          <NavbarItem>
+            <p>Home</p>
+          </NavbarItem>
+        </NavbarContent>
+
+      </Link>
+
+      <Link className=""
+        to={{pathname: '/shop'}}
+      >
+        <NavbarContent>
+          <NavbarItem>
+            <p>Sklep</p>
+          </NavbarItem>
+        </NavbarContent>
+
+      </Link>
 
       <Link
         to={{ pathname: '/acc', state: dataToPass }}

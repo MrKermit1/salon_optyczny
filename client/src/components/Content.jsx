@@ -1,6 +1,5 @@
 import './Content.css'
 import {Card, CardBody} from "@nextui-org/react";
-import Text from './Text.jsx';
 function Content (){
     return(
         <>
@@ -26,7 +25,6 @@ function Content (){
                         </CardBody>
                     </Card>
                 </div>
-                
             </div>
         </>
     )

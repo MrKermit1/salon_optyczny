@@ -8,7 +8,8 @@ function Product (props) {
         navigate('/product' ,{replace:true,  state: {
             img: props.image !=null ? props.image:obrazek,
             nazwa: props.nazwa != null ? props.nazwa : "brak nazwy",
-            cena: props.cena !=null ? props.cena : "0$"
+            cena: props.cena !=null ? props.cena : "0$",
+            opis: props.opis !=null ? props.opis : "brak opisu"
         }})
     }
     return (
