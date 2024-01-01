@@ -95,7 +95,7 @@ app.post('/getProduct', (req, res) => {
 
 
     db.query(
-        "SELECT nazwa, cena, opis FROM produkt",
+        "SELECT id, nazwa, cena, opis FROM produkt",
         [],
         (err, result) => {
             if (err) {
@@ -104,6 +104,61 @@ app.post('/getProduct', (req, res) => {
 
             if (result.length <= 0) {
                 res.status(409).send("Nie wczytano danych");
+            }else{
+                res.status(200).json(result)
+            }
+        }
+    )
+})
+
+app.post('/emLog', (req, res) => {
+
+    const kod = req.body.kod;
+
+    db.query(
+        "SELECT imie, nazwisko, email, id FROM pracownik WHERE kod LIKE ?",
+        [kod],
+        (err, result) => {
+            if (err) {
+                console.log(err);
+            }
+
+            if (result.length == 0) {
+                res.status(409).send("Nie znaleziono pracownika");
+            }else{
+                res.status(200).json(result[0])
+            }
+        }
+    )
+})
+
+app.post('/createOrder', (req, res) => {
+    const nazwa = req.body.nazwa;
+    const email = req.body.email;
+    const data = req.body.data;
+    const id_salonu = req.body.id_salonu;
+    const status = req.body.status
+    const id_produktu = req.body.id_produktu
+    db.query(
+        "INSERT INTO zamowienia (nazwa, email, data, id_salonu, status, id_produktu) VALUES (?, ?, ?, ?, ?, ?)",
+        [nazwa, email, data, id_salonu, status, id_produktu],
+        (err, result) => {
+            if (err) {
+                console.log(err)
+            }else{
+                res.status(200).send("dodano zamówienie")
+            }
+        }
+    )
+})
+
+app.post('/getOrders', (req, res) => {
+    db.query(
+        "SELECT * FROM zamowienia",
+        [],
+        (err, result) => {
+            if(err){
+                console.log(err)
             }else{
                 res.status(200).json(result)
             }
