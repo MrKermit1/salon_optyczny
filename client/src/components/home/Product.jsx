@@ -9,7 +9,8 @@ function Product (props) {
             img: props.image !=null ? props.image:obrazek,
             nazwa: props.nazwa != null ? props.nazwa : "brak nazwy",
             cena: props.cena !=null ? props.cena : "0$",
-            opis: props.opis !=null ? props.opis : "brak opisu"
+            opis: props.opis !=null ? props.opis : "brak opisu",
+            id: props.productId !=null ? props.productId : 0
         }})
     }
     return (
@@ -22,6 +23,7 @@ function Product (props) {
                 </div>
                 <h3 class="mt-4 text-sm text-gray-700">{props.nazwa != null ? props.nazwa : "brak nazwy"}</h3>
                 <p class="mt-1 text-lg font-medium text-gray-900">{props.cena !=null ? props.cena : "0$"}</p>
+                
             </a>
         </>
 
