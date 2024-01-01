@@ -17,6 +17,7 @@ const db = mysql.createPool({
     database: process.env.database
 });
 
+//rejestracja usera
 app.post('/create', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -47,6 +48,7 @@ app.post('/create', (req, res) => {
     )
 })
 
+//logowanie usera
 app.post('/log', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
@@ -70,6 +72,7 @@ app.post('/log', (req, res) => {
     )
 })
 
+//wyciąganie danych usera
 app.post('/getUser', (req, res) => {
     const email = req.body.email
 
@@ -91,6 +94,7 @@ app.post('/getUser', (req, res) => {
     )
 })
 
+//wyciąganie produktów
 app.post('/getProduct', (req, res) => {
 
 
@@ -111,6 +115,7 @@ app.post('/getProduct', (req, res) => {
     )
 })
 
+//logowanie pracownika
 app.post('/emLog', (req, res) => {
 
     const kod = req.body.kod;
@@ -132,6 +137,7 @@ app.post('/emLog', (req, res) => {
     )
 })
 
+//tworzenie zamówienia
 app.post('/createOrder', (req, res) => {
     const nazwa = req.body.nazwa;
     const email = req.body.email;
@@ -152,6 +158,7 @@ app.post('/createOrder', (req, res) => {
     )
 })
 
+//wyciąga zamówienia
 app.post('/getOrders', (req, res) => {
     db.query(
         "SELECT * FROM zamowienia",

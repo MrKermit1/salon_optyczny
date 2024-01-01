@@ -3,10 +3,12 @@ import Axios from 'axios';
 import { useState } from "react";
 import { useEffect } from "react";
 
-function Panel (parameters) {
-
+//panel uzytkownika/gościa
+function Panel () {
+    //stan tablicy z produktami
     const [productArr, setProductArr] = useState([]);
     useEffect(() => {
+        //request wyciągający produkty z bazy
         Axios.post('http://localhost:3001/getProduct' ,{}
         ).then((response) => {
             console.log(response.data)

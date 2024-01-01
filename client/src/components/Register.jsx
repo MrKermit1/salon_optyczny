@@ -6,14 +6,17 @@ import Axios from 'axios';
 import './Content.css'
 import { useRef, useEffect } from "react";
 
+//formularz rejestracji
 function Register() {
     
     const userRef = useRef();
     const errRef = useRef();
 
+    // Wyrażenia regularne do walidacji emaila i hasła
     const emailReg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g
     const passReg = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()-_+=])[\w!@#$%^&*()-_+=]{8,}$/;
 
+    // Stany przechowujące dane wprowadzone przez użytkownika i ich walidację
     const [email, setEmail] = useState('');
     const [validEmail, setValidEmail] = useState(false);
     const [emailFocus, setEmailFocus] = useState(false);
@@ -30,24 +33,25 @@ function Register() {
     const [validPass2, setValidPass2] = useState(false);
     const [passFocus2, setPassFocus2] = useState(false);
 
-    const [errMsg,setErrMsg] = useState('');
+    const [errMsg, setErrMsg] = useState('');
     const [done, setDone] = useState(false);
 
     const [regErr, setRegErr] = useState('');
 
-    //ustawia fokus na input kiedy komponent zostaje załadowny
-    useEffect(()=>{
+    // Ustawia fokus na input, gdy komponent zostaje załadowany
+    useEffect(() => {
         userRef.current.focus()
     }, [])
-    //walidacja emaila
-    useEffect(()=>{
+
+    // Walidacja emaila
+    useEffect(() => {
         const res = emailReg.test(email);
         console.log(res);
         console.log(email);
         setValidEmail(res);
     }, [email])
 
-    
+    // Walidacja hasła
     useEffect(() => {
         const res = passReg.test(password);
         console.log(res);
@@ -56,14 +60,18 @@ function Register() {
         setValidPass(res);
     }, [password, matchPass])
 
+    // Czyszczenie komunikatów dotyczących ostrzeżeń dot. walidacji emaila i hasła
     useEffect(() => {
         setErrMsg('')
-
     }, [email, password, matchPass])
+
+    // Uzyskanie obiektu do nawigacji przy użyciu hooka useNavigate z react-router-dom
     const navigate = useNavigate();
+
+    // Funkcja dodająca użytkownika
     const addUser = () => {
-        
-        if (validEmail && validPass && validPass) {
+        // Jeżeli dane zwalidowane pomyślnie, następuje wysłanie requesta
+        if (validEmail && validPass && validPass2) {
             
             Axios.post('http://localhost:3001/create', {
                 email: email,

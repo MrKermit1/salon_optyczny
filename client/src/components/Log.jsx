@@ -2,22 +2,27 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import UserInfo from "./home/UserInfo";
 import Axios from 'axios';
 import './Content.css'
-import { User } from "@nextui-org/react";
+
+//formularz logowania
 function Login () {
-    
+    //stan emaila
     const [email, setEmail] = useState('');
+    //stan hasła
     const [password, setPassword] = useState('');
+    //stan ostrzeżeń dot. logowania
     const [logErr, setLogErr] = useState('');
     const navigate = useNavigate();
+
+    //logowanie usera
     const login = () => {
+        //usuwa wszystkie dane z sesji 
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userId');
         localStorage.removeItem('userPortfel');
         localStorage.removeItem('userLog');
-
+        //wysyla requesta
         Axios.post('http://localhost:3001/log', {
             email: email,
             password: password
@@ -27,16 +32,15 @@ function Login () {
             Axios.post('http://localhost:3001/getUser',
                 {email: email}
             ).then((response) => {
-
+                //jezeli wszytstko poszło pomyyślnie, ustawia zmmienne w sesji
                 localStorage.setItem('userEmail' ,response.data.email)
                 localStorage.setItem('userId' ,response.data.id)
                 localStorage.setItem('userPortfel' ,response.data.portfel)
                 localStorage.setItem('logStatus', true);
                 //UserInfo.setEmail(response.data.email);
                 //UserInfo.setId(response.data.id);
-            }).catch((error) => { 
+            }).catch((error) => { // w razie errorów, wypisze je w konsoli
                 console.log(error)
-                console.log("ups");
             })  
             navigate('/shop', {state: email});
         }).catch((error) => { 

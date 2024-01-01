@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import React from "react";
-import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from "@nextui-org/react";
-
+//wyświetla złożone zamówienia
 function Orders() {
+  //stan tablicy z zamówieniami
   const [ordersArr, setOrdersArr] = useState([]);
 
   useEffect(() => {
+    //request wyciągający zamówienia
     Axios.post('http://localhost:3001/getOrders', {}).then((response) => {
-      console.log(response.data);
+      //ustawienie stanu tablicy zamówień
       setOrdersArr(response.data);
     });
   }, []);

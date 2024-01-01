@@ -5,50 +5,42 @@ import { useNavigate } from 'react-router-dom';
 import UserInfo from "./UserInfo";
 
 function Account () {
-
+    //stan emaila
     const [email, setEmail] = useState('');
+    //stan id
     const [id, setId] = useState();
+    //stan portfela
     const [portfel, setPortfel] = useState();
-    const [status, setStatus] = useState();
-
+    const [logStatus, setLogStatus] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
+        
+        
+        //przechwytuje dane z sesji
         const storedEmail = localStorage.getItem('userEmail');
         const storedId = localStorage.getItem('userId')
         const storedPortfel = localStorage.getItem('userPortfel')
-        const storedStatus = localStorage.getItem('userLog');
-
-        if (storedEmail && storedId && storedPortfel) {
+        const storedStatus = localStorage.getItem('logStatus');
+        //jezeli dane z sesji istnieją ustawia stany
+        if (storedEmail && storedId && storedPortfel && storedStatus) {
             setEmail(storedEmail);
             setId(storedId);
             setPortfel(storedPortfel);
+            setLogStatus(storedStatus);
 
-        } else {
-            const userEmail = UserInfo.getEmail();
-            const userId = UserInfo.getId();
-            const userPortfel = UserInfo.getPortfel();
-            const userStatus = UserInfo.getIsLog();
-
-            setId(userId);
-            setEmail(userEmail);
-            setPortfel(userPortfel);
-            setStatus(userStatus);
-            if (userStatus == false) {
-                navigate('/login');
-            }
-
-            localStorage.setItem('userEmail', userEmail);
-            localStorage.setItem('userId', userId);
-            localStorage.setItem('userPortfel', userPortfel);
-            localStorage.setItem('userLog', true);
+        } else {// w przeciwnym wypadku odsyła do strony logowania
+            navigate('/login')
         }
-    })
-
+    }, [])
+    
+    //wylogowanie
     const logout = () => {
+        //usuwa dane z sesji
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userId');
         localStorage.removeItem('userPortfel');
         localStorage.removeItem('logStatus');
+        //nawiguje do strony głównej
         navigate('/');
     };
 

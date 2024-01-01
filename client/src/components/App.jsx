@@ -9,6 +9,8 @@ import EmLog from './EmLog.jsx';
 import WorkPanel from './employee/WorkPanel.jsx';
 import Order from './home/Order.jsx';
 import Orders from './employee/Orders.jsx';
+
+//ustawia routy dla poszczególnych komponentów
 export default function App() {
   
   return (

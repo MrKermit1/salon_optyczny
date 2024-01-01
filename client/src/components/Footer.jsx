@@ -1,33 +1,5 @@
-//import {Navbar, NavbarBrand, NavbarContent, NavbarItem, Link} from "@nextui-org/react";
-//import './Footer.css';
+//stopka
 function Footer (){
-    /*return(
-        <>
-            <div id="footer" className="bg-green-300 me-5">
-                <Navbar className=" transition-height" id="footer2">
-                    <NavbarBrand>
-                        <p className="font-bold text-inherit">Salon Optyczny</p>
-                    </NavbarBrand>
-                    <NavbarContent className="hidden sm:flex gap-4" justify="center">
-                        <NavbarItem>
-                            <Link color="secondary" href="#">
-                                Facebook
-                            </Link>
-                        </NavbarItem>
-
-                        <NavbarItem>
-                            <Link color="secondary" href="#">
-                                Regulamin zamówień
-                            </Link>
-                        </NavbarItem>
-                    </NavbarContent>
-                </Navbar>
-            </div>
-        </>
-    );*/
-
-
-
 
     return(
         <>

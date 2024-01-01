@@ -5,13 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import Axios from 'axios';
 import './Content.css'
 
-function EmLog () {
-    
-    const [email, setEmail] = useState('');
+function EmLog () {//logowanie pracownika
+    //stan kodu dostępu
     const [kod, setKod] = useState('');
-    const [id, setId] = useState('');
     const navigate = useNavigate();
-
     Axios.post('http://localhost:3001/emLog', {
         kod: kod
     }).then((response) => {

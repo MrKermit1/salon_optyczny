@@ -1,35 +1,52 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
+
+//formularz zamówienia
 function Order () {
     const location = useLocation();
     const navigate = useNavigate();
 
+    //stan daty zamówienia
     const [date, setDate] = useState();
+    //stan nazwy produktu
     const [nazwa, setNazwa] = useState(); 
+    //stan statusu zamówienia
     const [status, setStatus] = useState('w trakcie realizacji');
+    //stan id produktu
     const [idProduktu, setidProduktu] = useState(); 
+    //stan email zamawiającego
     const [email, setEmail] = useState();
-    const [adres, setAdres] = useState();
+    //const [adres, setAdres] = useState();
+    //stan id salonu do którego oprawki mają być wysłane
     const [idSalonu, setidSalonu] = useState();
+    //obiekt obecnej daty
     const today = new Date();
     useEffect(() => {
-        console.log(localStorage.getItem('logStatus'))
+        //jezeli user nie jest zalogowany, formularz zamówienia jest nie dostępny i odsyła do strony z produktami
         if (!localStorage.getItem('logStatus')) {
             navigate('/shop')
         }else{
-            
+            //obecny miesiac
             const month = today.getMonth()+1;
+            //obecny rok
             const year = today.getFullYear();
-            const data = today.getDate();
-            const currentDate = year + "." + month + "." + data;
+            //obecny dzien
+            const day = today.getDate();
+            //cala data w formie Stringa
+            const currentDate = year + "." + month + "." + day;
+            //ustawia stan daty
             setDate(currentDate)
+            //ustawia stan id produktu
             setidProduktu(location.state.id)
+            //ustawia stan nazwy produktu
             setNazwa(location.state.nazwa)
+            //ustawia stan emaila
             setEmail(location.state.email)
         }
     }, [])
-    console.log(date)
+
+    //wysyła requsta dodając zamówienie do bazy
     const createOrder = () => {
         Axios.post('http://localhost:3001/createOrder', {
             nazwa: nazwa,

@@ -1,9 +1,10 @@
 import obrazek from '../../assets/okulary/obrazek1.jpg'
 import { useNavigate } from 'react-router-dom';
-
+//pojedyńczy produkt
 function Product (props) {
     const navigate = useNavigate();
 
+    //odsyłacz do tego konkretnego produktu
     const goToProduct = () => {
         navigate('/product' ,{replace:true,  state: {
             img: props.image !=null ? props.image:obrazek,

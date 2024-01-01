@@ -2,12 +2,14 @@ import { Navigate, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import Nav from '../Navbar';
 import  {Link} from 'react-router-dom';
+
+//informacje dot. wybranego produktu
 function ProductInfo (props) {
 
     const navigate = useNavigate();
     const location = useLocation();
-    console.log(location.state)
 
+    //odsyła do formularza zamówienia
     const goToOrder = () => {
         navigate('/order',
             {

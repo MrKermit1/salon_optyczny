@@ -45,10 +45,10 @@ function Home () {
             setUserId(response.data.id)
             setUserPortfel(response.data.portfel)
             //ustawia dane w klasie UserInfo
-            UserInfo.setEmail(response.data.email);
-            UserInfo.setId(response.data.id);
-            UserInfo.setPortfel(response.data.portfel)
-            UserInfo.setIsLog(true);
+            //UserInfo.setEmail(response.data.email);
+            //UserInfo.setId(response.data.id);
+            //UserInfo.setPortfel(response.data.portfel)
+            //UserInfo.setIsLog(true);
         }).catch((error) => { 
             console.log(error)
             console.log("ups");

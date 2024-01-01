@@ -7,9 +7,12 @@ import { useNavigate } from 'react-router-dom';
 import  {Link} from 'react-router-dom';
 function Nav(props) {
 
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  //stany dot. tego czy menu jest rozwinięte
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  //stany emaila
   const [email, setEmail] = useState(props.email !=null ? props.email : "");
   const navigate = useNavigate();
+  //tablica z elementami do menu rozwijanego
   const menuItems = [
     "Logowanie",
     "Rejestracja",
