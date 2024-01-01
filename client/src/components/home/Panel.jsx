@@ -6,7 +6,6 @@ import { useEffect } from "react";
 function Panel (parameters) {
 
     const [productArr, setProductArr] = useState([]);
-
     useEffect(() => {
         Axios.post('http://localhost:3001/getProduct' ,{}
         ).then((response) => {
@@ -27,7 +26,7 @@ function Panel (parameters) {
                     <div class="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
                         {
                             productArr.map((product) => {
-                                return <Product nazwa={product.nazwa} cena = {product.cena} opis = {product.opis} />
+                                return <Product nazwa={product.nazwa} cena = {product.cena} opis = {product.opis} productId = {product.id}/>
                             })
                         }
                     </div>
