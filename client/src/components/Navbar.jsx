@@ -17,6 +17,7 @@ function Nav(props) {
     "Regulamin",
   ];
 
+
   const dataToPass = {data: "email"}
 
   return (
@@ -84,6 +85,9 @@ function Nav(props) {
               }
               className="w-full"
               href="#"
+              to = {
+                {pathname: item === "Logowanie" ? '/login' : item === "Rejestracja" ? '/register' : '/'}
+              }
               size="lg"
             >
               {item}
