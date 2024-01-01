@@ -1,12 +1,27 @@
-import obrazek from '../../assets/okulary/obrazek1.jpg'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-
 import Nav from '../Navbar';
-
+import  {Link} from 'react-router-dom';
 function ProductInfo (props) {
 
+    const navigate = useNavigate();
     const location = useLocation();
     console.log(location.state)
+
+    const goToOrder = () => {
+        navigate('/order',
+            {
+                replace: true,
+                state: {
+                    nazwa: location.state.nazwa,
+                    cena: location.state.cena, 
+                    email: localStorage.getItem('userEmail'),
+                    id: location.state.id,
+                    img: location.state.img
+                }
+            }
+        )
+    }
 
     return (
         <>
@@ -19,9 +34,19 @@ function ProductInfo (props) {
                <div>
                    <p>{location.state.nazwa} <br /><br /></p>
                    <p>{location.state.opis}<br /><br /></p>
+                   
                    <p className='text-center transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110  duration-300'>
                        <p className=' text-center'>{location.state.cena}</p>
-                       <button className='text-center border-solid border-2 text-white bg-zinc-800 w-44 rounded-2xl '>Kup</button><br/>
+                       {
+                        console.log("przed: ", location.state)
+                       }
+                        <button 
+                            className='text-center border-solid border-2 text-white bg-zinc-800 w-44 rounded-2xl '
+                            onClick={goToOrder}
+                        >
+                            Kup
+                        </button>
+                        <br/>
                        <a href="/shop" className='text-center'>Powrót do strony głównej</a>
                        
 
