@@ -48,7 +48,7 @@ function Account () {
         localStorage.removeItem('userEmail');
         localStorage.removeItem('userId');
         localStorage.removeItem('userPortfel');
-        localStorage.removeItem('userLog');
+        localStorage.removeItem('logStatus');
         navigate('/');
     };
 
