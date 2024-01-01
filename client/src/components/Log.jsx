@@ -31,9 +31,9 @@ function Login () {
                 localStorage.setItem('userEmail' ,response.data.email)
                 localStorage.setItem('userId' ,response.data.id)
                 localStorage.setItem('userPortfel' ,response.data.portfel)
-
-                UserInfo.setEmail(response.data.email);
-                UserInfo.setId(response.data.id);
+                localStorage.setItem('logStatus', true);
+                //UserInfo.setEmail(response.data.email);
+                //UserInfo.setId(response.data.id);
             }).catch((error) => { 
                 console.log(error)
                 console.log("ups");
@@ -88,7 +88,7 @@ function Login () {
                                     </p>
                                     
                                     <p class="text-sm font-light text-gray-800 dark:text-gray-400">
-                                        Jesteś pracownikiem lub właścicielem? <a href="#" class="font-medium text-zinc-800 hover:underline dark:text-zinc-500">Zkorzystaj z panelu pracowniczego</a>
+                                        Jesteś pracownikiem? <a href="/login_employee" class="font-medium text-zinc-800 hover:underline dark:text-zinc-500">Zkorzystaj z panelu pracowniczego</a>
                                     </p>
                                 </form>
                             </div>
