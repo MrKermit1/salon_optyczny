@@ -189,7 +189,7 @@ app.post('/getOrders', (req, res) => {
         }
     )
 })
-
+//zapłata
 app.post('/cash', (req, res) => {
 
     const userEmail = req.body.email
@@ -207,7 +207,7 @@ app.post('/cash', (req, res) => {
         }
     )
 })
-
+//wpłata
 app.post('/addCash', (req, res) => {
 
     const name = req.body.name;
@@ -242,7 +242,7 @@ app.post('/addCash', (req, res) => {
     
 
 })
-
+//dodawanie produktu
 app.post('/addProduct', (req, res) => {
     
     const nazwa = req.body.nazwa
