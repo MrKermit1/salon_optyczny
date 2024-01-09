@@ -12,14 +12,17 @@ function EmLog () {//logowanie pracownika
     Axios.post('http://localhost:3001/emLog', {
         kod: kod
     }).then((response) => {
+        //ustawienie danych do sesji
         localStorage.setItem('em_email', response.data.email)
         localStorage.setItem('em_id', response.data.id)
         localStorage.setItem('em_imie', response.data.imie)
         localStorage.setItem('em_nazwisko', response.data.nazwisko)
+        localStorage.setItem('em_salon', response.data.id_salonu)
         localStorage.setItem('em_status', true)
         //nawiguj
         navigate('/work_panel');
     }).catch((error) => {
+        //w przypadku errorów wypisywane są w konsoli
         console.log(error)
     })
 

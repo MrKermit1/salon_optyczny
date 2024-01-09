@@ -1,13 +1,15 @@
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import Nav from '../Navbar';
-import  {Link} from 'react-router-dom';
+import { useState } from 'react';
 
 //informacje dot. wybranego produktu
 function ProductInfo (props) {
 
     const navigate = useNavigate();
     const location = useLocation();
+
+    const [product, setProduct] = useState();
 
     //odsyła do formularza zamówienia
     const goToOrder = () => {
@@ -25,6 +27,7 @@ function ProductInfo (props) {
         )
     }
 
+    
     return (
         <>
             <Nav></Nav>
@@ -49,7 +52,13 @@ function ProductInfo (props) {
                             Kup
                         </button>
                         <br/>
-                       <a href="/shop" className='text-center'>Powrót do strony głównej</a>
+
+                        
+
+                        <p>
+                            <a href="/shop" className='text-center'>Powrót do strony głównej</a>
+                        </p>
+                       
                        
 
                    </p>

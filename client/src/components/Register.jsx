@@ -38,6 +38,10 @@ function Register() {
 
     const [regErr, setRegErr] = useState('');
 
+
+    const [name, setName] = useState()
+    const [surname, setSurname] = useState()
+
     // Ustawia fokus na input, gdy komponent zostaje załadowany
     useEffect(() => {
         userRef.current.focus()
@@ -46,16 +50,12 @@ function Register() {
     // Walidacja emaila
     useEffect(() => {
         const res = emailReg.test(email);
-        console.log(res);
-        console.log(email);
         setValidEmail(res);
     }, [email])
 
     // Walidacja hasła
     useEffect(() => {
         const res = passReg.test(password);
-        console.log(res);
-        console.log(password);
         const match = password === matchPass;
         setValidPass(res);
     }, [password, matchPass])
@@ -71,19 +71,24 @@ function Register() {
     // Funkcja dodająca użytkownika
     const addUser = () => {
         // Jeżeli dane zwalidowane pomyślnie, następuje wysłanie requesta
-        if (validEmail && validPass && validPass2) {
+        if (validEmail && validPass) {
             
             Axios.post('http://localhost:3001/create', {
                 email: email,
-                password: password
+                password: password,
+                name: name,
+                surname: surname
             }).then((response) => {
-                console.log("sukces")
+                //czyszczenie powiadomień i nawigacja do strony logowania
                 setRegErr('');
                 navigate('/login');
             }).catch((error) => {
-                console.log("Email istnieje");
+                //w przypadku błędów ustawia komunikat
                 setRegErr("Email istnieje");
             })
+        }else{
+            //jezeli email i hasło nie są poprawne
+            setErrMsg('Wprowadzono niepoprawne dane')
         }
     }
 
@@ -133,6 +138,34 @@ function Register() {
                                     id="uidnote"
                                     className={emailFocus && email && !validEmail ? "text-red-500" : "hidden "}
                                     >Nieprawidłowy Email</p>
+                                    
+                                    <div>
+                                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imie</label>
+                                        <input 
+                                        type="text" 
+                                        name="name" 
+                                        id="name" 
+                                        autoComplete="off"
+                                        onChange={(e) => setName(e.target.value)}
+                                        placeholder="Imię" 
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                        required />
+                                    </div>
+
+
+                                    <div>
+                                        <label for="surname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Surname</label>
+                                        <input 
+                                        type="text" 
+                                        name="surname" 
+                                        id="surname" 
+                                        autoComplete="off"
+                                        onChange={(e) => setSurname(e.target.value)}
+                                        placeholder="Nazwisko" 
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                        required />
+                                    </div>
+
                                     <div>
                                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Hasło</label>
                                         <input 
@@ -149,10 +182,12 @@ function Register() {
                                         class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                         required />
                                     </div>
+
                                     <p
                                     id="pwdnote"
                                     className={passFocus && password && !validPass ? "text-red-500" : "hidden"}
                                     >Nieprawidłowe hasło.<br/>Hasło powinno zawierać  przy najmniej jedną dużą literę, jeden specjalny znak i jedną liczbę i nie może być krótszy niż 8 znaków</p>
+                                    
                                     <div>
                                         <label for="password2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Powtórz Hasło</label>
                                         <input 
@@ -176,7 +211,7 @@ function Register() {
                                     <div></div>
                                     <button 
                                     type="button" 
-                                    class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                    class="w-full text-white bg-zinc-800 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                     onClick={addUser}
                                     >Zarejestruj</button>
 
@@ -185,7 +220,7 @@ function Register() {
                                 <p
                                     ref={errRef}
                                     aria-live="assertive"
-                                    className={errMsg ? "offscreen": "hidden"}
+                                    className={errMsg ? "offscreen text-red-600": "hidden"}
                                 >
                                     {errMsg}
                                 </p>
@@ -195,7 +230,7 @@ function Register() {
                     </div>
                 </section>
             </div>
-            <Footer />
+            
        </> 
     )
 }export default Register;

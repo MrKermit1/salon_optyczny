@@ -2,7 +2,6 @@ import React from 'react';
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import UserInfo from "./UserInfo";
 
 function Account () {
     //stan emaila
@@ -11,6 +10,7 @@ function Account () {
     const [id, setId] = useState();
     //stan portfela
     const [portfel, setPortfel] = useState();
+    //stan satatusu zalogowania
     const [logStatus, setLogStatus] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
@@ -23,6 +23,7 @@ function Account () {
         const storedStatus = localStorage.getItem('logStatus');
         //jezeli dane z sesji istnieją ustawia stany
         if (storedEmail && storedId && storedPortfel && storedStatus) {
+            //ustawienie stanów
             setEmail(storedEmail);
             setId(storedId);
             setPortfel(storedPortfel);
@@ -44,6 +45,10 @@ function Account () {
         navigate('/');
     };
 
+    const addCash = () => {
+        navigate('/addCash');
+    }
+
 
     return  (
         <>
@@ -56,8 +61,8 @@ function Account () {
                 
                 <div class="border-t border-gray-200 ">
                     <dl>
-                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt class="text-sm font-medium text-gray-500">
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-t border-gray-200">
+                            <dt class="text-sm font-medium text-gray-500 border-t border-gray-200">
                                 Email address
                             </dt>
                             <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -73,7 +78,17 @@ function Account () {
                             </dd>
                         </div>
 
-                       
+                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                            <dt class="text-sm font-medium text-gray-500">
+                                Dodaj środki na konto aplikacji
+                            </dt>
+
+                            <button
+                                    onClick={addCash}
+                                >Dodaj
+                            </button>
+                            
+                        </div>
 
                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt class="text-sm font-medium text-gray-500">

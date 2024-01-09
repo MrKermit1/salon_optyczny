@@ -1,14 +1,24 @@
 import { useEffect, useState } from "react";
 import Axios from "axios";
 import React from "react";
+import Aside from "./Aside";
+import { useNavigate } from "react-router-dom";
 //wyświetla złożone zamówienia
 function Orders() {
   //stan tablicy z zamówieniami
   const [ordersArr, setOrdersArr] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
+
+    if (!localStorage.getItem('em_status')){
+      navigate('/login')
+    }
+
     //request wyciągający zamówienia
-    Axios.post('http://localhost:3001/getOrders', {}).then((response) => {
+    Axios.post('http://localhost:3001/getOrders', {
+      id_salonu: localStorage.getItem('em_salon')
+    }).then((response) => {
       //ustawienie stanu tablicy zamówień
       setOrdersArr(response.data);
     });
@@ -16,15 +26,7 @@ function Orders() {
 
   return (
     <>
-      <div id="left" className="w-full sm:w-1/4 bg-gray-300 sm:h-screen float-left">
-        <ul className="text-center">
-          <li>
-            <a href="">Realizuj zamówienia</a>
-          </li>
-          <li>Zrealizowane zamówienia</li>
-          <li>Zarządzaj użytkownikami</li>
-        </ul>
-      </div>
+      <Aside/>    
 
       <div id="center" className="w-full sm:w-3/4 h-screen float-left overflow-x-auto">
         <table className="w-full border-collapse border border-slate-500 text-center ml-auto mr-auto">
@@ -34,7 +36,6 @@ function Orders() {
               <th className="border border-slate-600 p-2">nazwa</th>
               <th className="border border-slate-600 p-2">email</th>
               <th className="border border-slate-600 p-2">data</th>
-              <th className="border border-slate-600 p-2">id salonu</th>
               <th className="border border-slate-600 p-2">status</th>
               <th className="border border-slate-600 p-2">id produktu</th>
               <th className="border border-slate-600 p-2">Realizacja</th>
@@ -47,7 +48,6 @@ function Orders() {
                 <td className="border border-slate-600 p-2">{order.nazwa}</td>
                 <td className="border border-slate-600 p-2">{order.email}</td>
                 <td className="border border-slate-600 p-2">{order.data}</td>
-                <td className="border border-slate-600 p-2">{order.id_salonu}</td>
                 <td className="border border-slate-600 p-2">{order.status}</td>
                 <td className="border border-slate-600 p-2">{order.id_produktu}</td>
                 <td className="border border-slate-600 p-2">

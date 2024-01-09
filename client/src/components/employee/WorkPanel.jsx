@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import Aside from "./Aside";
+
 
 //strona glowna panelu pracowniczego, zawiera dane pracownika
 function WorkPanel () {
@@ -12,7 +14,7 @@ function WorkPanel () {
     //stan emaila
     const [email, setEmail] = useState();
     //stan id
-    //const [id, setId] = useState();
+    const [id, setId] = useState();
     //stan statusu
     const [status, setStatus] = useState(false);
     const navigate = useNavigate();
@@ -26,30 +28,23 @@ function WorkPanel () {
             setEmail(localStorage.getItem('em_email'))
             setId(localStorage.getItem('em_id'))
         }else{//w przeciwnym wypadku odsyła na stronę główną
-            navigate('/');
+            navigate('/login');
         }
         
     }, [])                                           
     
-    
+
+
     return (
         <>
-            <div id="left" className=" w-1/4 bg-gray-300 h-screen float-left">
-                <ul className="text-center">
-                    <li>
-                        <a href="/orders">Realizuj zamówienia</a>
-                        
-                        </li>
-                    <li>Zrealizowane zamówienia</li>
-                    <li>Dodaj produkt</li>
-                </ul>
-            </div>
+            <Aside/>
 
             <div id="center" className=" w-3/4 h-screen float-left">
                 <p className=" text-center">Dane pracownika: </p>
                 <p className=" text-center">Imie: {name}</p>
                 <p className=" text-center">Nazwisko: {secname}</p>
                 <p className=" text-center">Email: {email}</p>
+                <p className=" text-center">Id: {id}</p>
             </div>
         </>
     )

@@ -20,21 +20,35 @@ function Order () {
     //const [adres, setAdres] = useState();
     //stan id salonu do którego oprawki mają być wysłane
     const [idSalonu, setidSalonu] = useState();
+    //stan powiadomień
+    const [message, setMessage] = useState('');
+    //stan ceny
+    const [cena, setCena] = useState();
+    //stan nowego stanu konta
+    const [nowyPortfel, setNowyPortfel] = useState()
     //obiekt obecnej daty
     const today = new Date();
+
+    const [idUsera, setIdUsera] = useState();
     useEffect(() => {
         //jezeli user nie jest zalogowany, formularz zamówienia jest nie dostępny i odsyła do strony z produktami
         if (!localStorage.getItem('logStatus')) {
-            navigate('/shop')
+            navigate('/login')
         }else{
             //obecny miesiac
-            const month = today.getMonth()+1;
+            let month = today.getMonth()+1;
+            if (month < 10) {
+                month = "0" + month
+            }
             //obecny rok
-            const year = today.getFullYear();
+            let year = today.getFullYear();
             //obecny dzien
-            const day = today.getDate();
+            let day = today.getDate();
+            if (day < 10) {
+                day = "0" + day
+            }
             //cala data w formie Stringa
-            const currentDate = year + "." + month + "." + day;
+            const currentDate = year + "-" + month + "-" + day;
             //ustawia stan daty
             setDate(currentDate)
             //ustawia stan id produktu
@@ -43,27 +57,60 @@ function Order () {
             setNazwa(location.state.nazwa)
             //ustawia stan emaila
             setEmail(location.state.email)
+            //ustawia stan id usera
+            setIdUsera(localStorage.getItem('userId'))
+            //ustawia stan ceny
+            setCena(location.state.cena)
+            //ustawia stan nowego stanu konta
+            setNowyPortfel(parseInt(localStorage.getItem('userPortfel')) - parseInt(location.state.cena))
+            
         }
     }, [])
 
     //wysyła requsta dodając zamówienie do bazy
     const createOrder = () => {
-        Axios.post('http://localhost:3001/createOrder', {
-            nazwa: nazwa,
-            email: email,
-            data: date,
-            status: status,
-            id_salonu: idSalonu,
-            id_produktu: idProduktu
-        }).then((response) => {
-             
-        })
+
+        if (nowyPortfel < 0) {
+            console.log('biedak')
+            setMessage('Nie masz wystarczająco środków na koncie')
+        }else{
+            Axios.post('http://localhost:3001/createOrder', {
+                        nazwa: nazwa,
+                        email: email,
+                        data: date,
+                        status: status,
+                        id_salonu: idSalonu,
+                        id_produktu: idProduktu,
+                        id_usera: idUsera
+                    }).then((response) => { 
+                        console.log(nowyPortfel);
+                        localStorage.setItem('userPortfel', nowyPortfel)
+                        Axios.post('http://localhost:3001/cash ', {
+                            email: email,
+                            cash: nowyPortfel
+                        }).then((response) => {
+                            localStorage.setItem('transactionStatus', true);
+                            navigate('/statement', {state: "Twoje zamówienie zostało złożone"})
+                        }).catch((error) => {
+                            console.log(error);
+                            setMessage('Transkakcja nie doszła do skutku.');
+                        })
+                    }).catch((error) => {
+                        console.log(error);
+                        setMessage('Transkakcja nie doszła do skutku. Upewnij się, że numer salonu jest poprawny.');
+                    })            
+        }
+
+
+        
     }
     return (
         <>
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                 <div id="coKupujesz">
-                    <p>Kupujesz: {location.state.nazwa}</p>
+                    <p>Kupujesz: </p>
+                    <p>{nazwa}</p>
+                    <p>Cena: {cena}</p>
                     <img src={location.state.img} alt="" width="100"/>
                 </div>
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -83,7 +130,9 @@ function Order () {
                     onClick={createOrder}
                     class="w-full text-white bg-zinc-800 hover:bg-zinc-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     Złóż zamówienie</button>
+                    <a href="/shop" className='text-center'>Powrót do strony głównej</a>
                 </form>
+                <p className=' text-center text-red-600'>{message}</p>
             </div>
         </>
     )

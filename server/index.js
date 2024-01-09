@@ -8,9 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
 const db = mysql.createPool({
-    connectionLimit: 10,
     host: process.env.host,
     user: process.env.user,
     password: process.env.password,
@@ -21,6 +19,8 @@ const db = mysql.createPool({
 app.post('/create', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
+    const name = req.body.name;
+    const surname = req.body.surname;
     const hash = crypto.createHash('sha256').update(password).digest('hex');
     db.query(
         "SELECT * FROM user WHERE email LIKE ?",
@@ -33,8 +33,8 @@ app.post('/create', (req, res) => {
                 if (result.length === 0) {
                     
                     db.query(
-                        "INSERT INTO user (email, pass) VALUES (?, ?)",
-                        [email, hash],
+                        "INSERT INTO user (email, pass, imie, nazwisko) VALUES (?, ?, ?, ?)",
+                        [email, hash, name, surname],
                         (err, result) => {
                             err ? console.log(err) : res.status(200).send("rejestracja pomyślna")
                         }
@@ -121,7 +121,7 @@ app.post('/emLog', (req, res) => {
     const kod = req.body.kod;
 
     db.query(
-        "SELECT imie, nazwisko, email, id FROM pracownik WHERE kod LIKE ?",
+        "SELECT * FROM pracownik WHERE kod LIKE ?",
         [kod],
         (err, result) => {
             if (err) {
@@ -145,14 +145,28 @@ app.post('/createOrder', (req, res) => {
     const id_salonu = req.body.id_salonu;
     const status = req.body.status
     const id_produktu = req.body.id_produktu
+    const id_usera = req.body.id_usera
     db.query(
-        "INSERT INTO zamowienia (nazwa, email, data, id_salonu, status, id_produktu) VALUES (?, ?, ?, ?, ?, ?)",
-        [nazwa, email, data, id_salonu, status, id_produktu],
+        "SELECT * FROM salony WHERE id = ?",
+        [id_salonu],
         (err, result) => {
             if (err) {
                 console.log(err)
+            }
+            if(result.length < 1){
+                res.status(409).send('nie znaleziono salonu');
             }else{
-                res.status(200).send("dodano zamówienie")
+                db.query(
+                    "INSERT INTO zamowienia (nazwa, email, data, id_salonu, status, id_produktu, id_usera) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    [nazwa, email, data, id_salonu, status, id_produktu, id_usera],
+                    (err, result) => {
+                        if (err) {
+                            console.log(err)
+                        }else{
+                            res.status(200).send("dodano zamówienie")
+                        }
+                    }
+                )
             }
         }
     )
@@ -160,9 +174,12 @@ app.post('/createOrder', (req, res) => {
 
 //wyciąga zamówienia
 app.post('/getOrders', (req, res) => {
+
+    const id_salonu = req.body.id_salonu
+
     db.query(
-        "SELECT * FROM zamowienia",
-        [],
+        "SELECT * FROM zamowienia WHERE id_salonu LIKE ?",
+        [id_salonu],
         (err, result) => {
             if(err){
                 console.log(err)
@@ -173,6 +190,80 @@ app.post('/getOrders', (req, res) => {
     )
 })
 
-app.listen(3001, () => {
+app.post('/cash', (req, res) => {
+
+    const userEmail = req.body.email
+    const cash = req.body.cash
+
+    db.query(
+        "UPDATE user SET portfel = ? WHERE email LIKE ?",
+        [cash, userEmail], 
+        (err, result) => {
+            if(err){
+                console.log(err)
+            }else{
+                res.status(200).send("transakcja udana")
+            }
+        }
+    )
+})
+
+app.post('/addCash', (req, res) => {
+
+    const name = req.body.name;
+    const surname = req.body.surname;
+    const money = req.body.money;
+    const email = req.body.email
+    db.query(
+        "SELECT * FROM user WHERE email LIKE ? AND imie LIKE ? AND nazwisko LIKE ?",
+        [email, name, surname],
+        (err, result) => {
+            if(err){
+                console.log(err)
+            }else{
+                if (result.length >= 1) {
+                    db.query(
+                        "UPDATE user SET portfel = ? WHERE imie = ? AND nazwisko = ?",
+                        [money, name , surname],
+                            (err, result) => {
+                                if(err){
+                                console.log(err);
+                            }else{
+                                res.status(200).send("Dodano środki")
+                            }
+                        }
+                    )
+                }else{
+                    res.status(409).send("nie znaleziono usera")
+                }
+            }
+        }
+    )
+    
+
+})
+
+app.post('/addProduct', (req, res) => {
+    
+    const nazwa = req.body.nazwa
+    const cena = req.body.cena
+    const opis = req.body.opis
+
+    db.query(
+        "INSERT INTO produkt (nazwa, cena, opis) VALUES (?, ?, ?)",
+        [nazwa, cena, opis],
+        (err, result) => {
+            if (err) {
+                console.log(err)
+            }else{
+                res.status(200).send('dodano produkt')
+            }
+        }
+    )
+})
+
+const PORT = process.env.PORT || 3001;
+
+app.listen(PORT, () => {
     console.log("serwer działa na porcie 3001");
 })

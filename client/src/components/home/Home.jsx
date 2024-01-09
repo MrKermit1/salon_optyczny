@@ -2,9 +2,9 @@ import React from 'react';
 import Nav from '../Navbar';
 import Panel from './Panel';
 import { useLocation } from 'react-router-dom';
+import Footer from '../Footer';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import UserInfo from './UserInfo';
 import Axios from 'axios';
 
 function Home () {
@@ -24,6 +24,7 @@ function Home () {
         const storedLogStatus = localStorage.getItem('userLog');
         //jezeli są ustawione dane z sesji to dane są przypisywane lokalnie w komponencie
         if (storedUserEmail && storedUserId && storedUserPortfel) {
+          //ustawienie stanów
           setUserEmail(storedUserEmail);
           setUserId(storedUserId);
           setUserPortfel(storedUserPortfel);
@@ -44,11 +45,6 @@ function Home () {
             setUserEmail(response.data.email)
             setUserId(response.data.id)
             setUserPortfel(response.data.portfel)
-            //ustawia dane w klasie UserInfo
-            //UserInfo.setEmail(response.data.email);
-            //UserInfo.setId(response.data.id);
-            //UserInfo.setPortfel(response.data.portfel)
-            //UserInfo.setIsLog(true);
         }).catch((error) => { 
             console.log(error)
             console.log("ups");
@@ -60,6 +56,7 @@ function Home () {
         <>
             <Nav email={userEmail} status={userLog}/>
             <Panel></Panel>
+            <Footer></Footer>
         </>
     )
 }export default Home
